@@ -1,0 +1,44 @@
+{% extends 'documents/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="mb-4">Search Documents</h2>
+        <form method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search by UID, SSN, name, or document type" value="{{ query }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        {% if documents %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>UID</th>
+                            <th>Name</th>
+                            <th>Document Type</th>
+                            <th>File</th>
+                            <th>Uploaded</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for doc in documents %}
+                            <tr>
+                                <td>{{ doc.uid }}</td>
+                                <td>{{ doc.first_name }} {{ doc.last_name }}</td>
+                                <td>{{ doc.document_type }}</td>
+                                <td><a href="{{ doc.file.url }}" target="_blank">{{ doc.filename }}</a></td>
+                                <td>{{ doc.uploaded_at|date:"M d, Y" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% elif query %}
+            <p class="text-center">No documents found matching your search.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 
