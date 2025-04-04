@@ -14,68 +14,117 @@
                 </div>
             {% endif %}
             
-            <div class="mb-3">
-                <label for="{{ form.uid.id_for_label }}" class="form-label">UID</label>
-                {{ form.uid }}
-                {% if form.uid.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.uid.errors.0 }}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="mb-3">
-                <label for="{{ form.ssn.id_for_label }}" class="form-label">SSN (9 digits)</label>
-                {{ form.ssn }}
-                <small class="form-text text-muted">Enter 9 digits with or without dashes (e.g., 123456789 or 123-45-6789)</small>
-                {% if form.ssn.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.ssn.errors.0 }}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="mb-3">
-                <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
-                {{ form.first_name }}
-                {% if form.first_name.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.first_name.errors.0 }}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="mb-3">
-                <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
-                {{ form.last_name }}
-                {% if form.last_name.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.last_name.errors.0 }}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="mb-3">
-                <label for="{{ form.document_type.id_for_label }}" class="form-label">Document Type</label>
-                {{ form.document_type }}
-                {% if form.document_type.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.document_type.errors.0 }}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Document</label>
-                <div id="dropzone" class="dropzone">
-                    <p>Drag and drop a file here or click to select</p>
-                    {{ form.file }}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Member Information</h5>
                 </div>
-                <div id="preview-container" class="mt-3" style="display: none;">
-                    <h5>Preview</h5>
-                    <div id="preview" class="preview-area"></div>
-                </div>
-                {% if form.file.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.file.errors.0 }}
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="{{ member_form.uid.id_for_label }}" class="form-label">UID</label>
+                        {{ member_form.uid }}
+                        {% if member_form.uid.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ member_form.uid.errors.0 }}
+                            </div>
+                        {% endif %}
                     </div>
-                {% endif %}
+                    <div class="mb-3">
+                        <label for="{{ member_form.ssn.id_for_label }}" class="form-label">SSN</label>
+                        {{ member_form.ssn }}
+                        <small class="form-text text-muted">Enter 9 digits with or without dashes (e.g., 123456789 or 123-45-6789)</small>
+                        {% if member_form.ssn.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ member_form.ssn.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ member_form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                {{ member_form.first_name }}
+                                {% if member_form.first_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ member_form.first_name.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ member_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                {{ member_form.last_name }}
+                                {% if member_form.last_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ member_form.last_name.errors.0 }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ member_form.date_of_birth.id_for_label }}" class="form-label">Date of Birth</label>
+                        {{ member_form.date_of_birth }}
+                        {% if member_form.date_of_birth.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ member_form.date_of_birth.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Document Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="{{ document_form.document_type.id_for_label }}" class="form-label">Document Type</label>
+                        {{ document_form.document_type }}
+                        {% if document_form.document_type.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ document_form.document_type.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ document_form.dependent.id_for_label }}" class="form-label">Dependent (Optional)</label>
+                        {{ document_form.dependent }}
+                        {% if document_form.dependent.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ document_form.dependent.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ document_form.notes.id_for_label }}" class="form-label">Notes (Optional)</label>
+                        {{ document_form.notes }}
+                        {% if document_form.notes.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ document_form.notes.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Document File</label>
+                        <div id="dropzone" class="dropzone">
+                            <p>Drag and drop a file here or click to select</p>
+                            {{ document_form.file }}
+                        </div>
+                        <div id="preview-container" class="mt-3" style="display: none;">
+                            <h5>Preview</h5>
+                            <div id="preview" class="preview-area"></div>
+                        </div>
+                        {% if document_form.file.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ document_form.file.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
     </div>
@@ -100,6 +149,21 @@
         height: 280px;
         border: none;
     }
+    .dropzone {
+        width: 100%;
+        height: 200px;
+        border: 2px dashed #ccc;
+        border-radius: 4px;
+        padding: 20px;
+        text-align: center;
+        background: #f9f9f9;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+    .dropzone.dragover {
+        background: #e1e1e1;
+        border-color: #999;
+    }
 </style>
 
 <script>
@@ -109,11 +173,6 @@
         const fileInput = document.querySelector('input[type="file"]');
         const previewContainer = document.getElementById('preview-container');
         const preview = document.getElementById('preview');
-
-        // Style form inputs
-        document.querySelectorAll('input[type="text"]').forEach(input => {
-            input.classList.add('form-control');
-        });
 
         function updatePreview(file) {
             previewContainer.style.display = 'block';
@@ -134,25 +193,7 @@
 
         // Form submission handling
         form.addEventListener('submit', function(e) {
-            const requiredFields = ['uid', 'ssn', 'first_name', 'last_name', 'document_type'];
             let hasErrors = false;
-
-            // Check required fields
-            requiredFields.forEach(field => {
-                const input = form.querySelector(`[name="${field}"]`);
-                if (!input.value.trim()) {
-                    hasErrors = true;
-                    alert(`Please fill in the ${field.replace('_', ' ')}`);
-                }
-            });
-
-            // Check SSN format
-            const ssnInput = form.querySelector('[name="ssn"]');
-            const ssnDigits = ssnInput.value.replace(/\D/g, '');
-            if (ssnDigits.length !== 9) {
-                hasErrors = true;
-                alert('SSN must be exactly 9 digits');
-            }
 
             // Check file
             if (!fileInput.files || fileInput.files.length === 0) {

@@ -1,10 +1,10 @@
 from django import forms
-from .models import Document
+from .models import Member, Dependent, Document, File, DocumentType
 
-class DocumentForm(forms.ModelForm):
+class MemberForm(forms.ModelForm):
     class Meta:
-        model = Document
-        fields = ['uid', 'ssn', 'first_name', 'last_name', 'document_type', 'file']
+        model = Member
+        fields = ['uid', 'ssn', 'first_name', 'last_name', 'date_of_birth']
         widgets = {
             'uid': forms.TextInput(attrs={'class': 'form-control'}),
             'ssn': forms.TextInput(attrs={
@@ -14,9 +14,67 @@ class DocumentForm(forms.ModelForm):
             }),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'document_type': forms.TextInput(attrs={'class': 'form-control'}),
-            'file': forms.FileInput(attrs={'class': 'form-control', 'style': 'display: none;'}),
+            'date_of_birth': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date'
+            }),
         }
+
+class DependentForm(forms.ModelForm):
+    class Meta:
+        model = Dependent
+        fields = ['uid', 'first_name', 'last_name', 'relationship', 'date_of_birth']
+        widgets = {
+            'uid': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'relationship': forms.Select(attrs={'class': 'form-control'}),
+            'date_of_birth': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date'
+            }),
+        }
+
+class DocumentUploadForm(forms.ModelForm):
+    file = forms.FileField(widget=forms.FileInput(attrs={
+        'class': 'form-control',
+        'style': 'display: none;'
+    }))
+    
+    class Meta:
+        model = Document
+        fields = ['document_type', 'member', 'dependent', 'notes']
+        widgets = {
+            'document_type': forms.Select(attrs={'class': 'form-control'}),
+            'member': forms.Select(attrs={'class': 'form-control'}),
+            'dependent': forms.Select(attrs={'class': 'form-control'}),
+            'notes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dependent'].required = False
+        self.fields['notes'].required = False
+
+    def save(self, commit=True):
+        document = super().save(commit=False)
+        if commit:
+            document.save()
+            
+            # Create File instance
+            if self.cleaned_data.get('file'):
+                uploaded_file = self.cleaned_data['file']
+                File.objects.create(
+                    document=document,
+                    file=uploaded_file,
+                    original_filename=uploaded_file.name,
+                    file_size=uploaded_file.size,
+                    mime_type=uploaded_file.content_type
+                )
+        return document
 
     def clean_ssn(self):
         ssn = self.cleaned_data.get('ssn', '')

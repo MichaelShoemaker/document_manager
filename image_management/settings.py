@@ -59,7 +59,7 @@ ROOT_URLCONF = "image_management.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -87,6 +87,14 @@ DATABASES = {
         "PASSWORD": os.getenv('DB_PASSWORD'),
         "HOST": os.getenv('DB_HOST'),
         "PORT": os.getenv('DB_PORT'),
+        "CONN_MAX_AGE": 0,  # Disable persistent connections
+        "OPTIONS": {
+            "connect_timeout": 5,
+            "keepalives": 1,
+            "keepalives_idle": 30,
+            "keepalives_interval": 10,
+            "keepalives_count": 5,
+        },
     }
 }
 
@@ -147,3 +155,8 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+# Auth settings
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGIN_URL = '/accounts/login/'
