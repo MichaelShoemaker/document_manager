@@ -26,12 +26,14 @@ class DocumentForm(forms.ModelForm):
         # Remove all non-digit characters
         digits = ''.join(filter(str.isdigit, ssn))
         
-        # Pad with zeros if less than 9 digits
-        digits = digits.zfill(9)
-        
-        # Format as XXX-XX-XXXX
-        formatted_ssn = f"{digits[:3]}-{digits[3:5]}-{digits[5:]}"
-        return formatted_ssn
+        # Validate length
+        if len(digits) != 9:
+            raise forms.ValidationError("SSN must be exactly 9 digits")
+            
+        # Return the original format if it was entered with dashes, otherwise return just digits
+        if '-' in ssn:
+            return f"{digits[:3]}-{digits[3:5]}-{digits[5:]}"
+        return digits
 
     def clean_file(self):
         file = self.cleaned_data.get('file')

@@ -18,6 +18,7 @@
                         <tr>
                             <th>UID</th>
                             <th>Name</th>
+                            <th>SSN</th>
                             <th>Document Type</th>
                             <th>File</th>
                             <th>Uploaded</th>
@@ -28,6 +29,7 @@
                             <tr>
                                 <td>{{ doc.uid }}</td>
                                 <td>{{ doc.first_name }} {{ doc.last_name }}</td>
+                                <td>{{ doc.ssn }}</td>
                                 <td>{{ doc.document_type }}</td>
                                 <td><a href="{{ doc.file.url }}" target="_blank">{{ doc.filename }}</a></td>
                                 <td>{{ doc.uploaded_at|date:"M d, Y" }}</td>
